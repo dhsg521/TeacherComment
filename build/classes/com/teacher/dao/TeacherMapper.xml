@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.teacher.dao.TeacherDao">
+	<select id="findByAcademeId"
+	 parameterType="String" 
+	 resultType="com.teacher.entity.Teacher">
+	 select * from teacher where academe_id=#{academe_id}
+	 </select>
+	 <select id="findByTeacherId" 
+	 parameterType="String" 
+	 resultMap="teacher">
+	 select * from teacher,academe where 
+	 teacher.academe_id=#{teacher_id} and 
+	 teacher.academe_id=academe.academe_id
+	 </select>
+	 <!-- 一对一映射 -->
+	 <resultMap type="com.teacher.entity.Teacher" id="teacher" >
+	 	<id property="teacher_id" column="teacher_id"/>
+	 	<result property="teacher_name" column="teacher_name"/>
+	 	<result property="teacher_img" column="teacher_img"/>
+	 	<result property="teacher_introduce" column="teacher_introduce"/>
+	 	<result property="phone_number" column="phone_number"/>
+	 	<result property="teacher_mail" column="teacher_mail"/>
+	 	<result property="academe_id" column="academe_id"/>
+	 	<result property="academic_title" column="academic_title"/>
+	 	<result property="research_area" column="research_area"/>
+	 	<!-- 指定关联属性加载 -->
+	 	<association property="academe" 
+	 	javaType="com.teacher.entity.Academe">
+	 		<id property="academe_id" column="academe_id"/>
+			<result property="academe_name" column="academe_name"/>
+	 	</association>
+	 </resultMap>
+</mapper>

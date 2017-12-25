@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.teacher.dao.CommentDao">
+ 	<select id="findByTeacherIdOrderHot"  resultMap="comments" parameterType="String">
+ 	select * from comments
+ 	where teacher_id=#{0} 
+ 	limit ${1},10
+ 	</select>
+ 	<select id="findByTeacherIdOrderTime"  resultMap="comments" parameterType="String">
+ 	select * from comments
+ 	where teacher_id=#{0} 
+ 	limit #{1},10
+ 	</select>
+ 	<select id="findThumbsByCommentId" parameterType="String" resultType="int">
+ 	select count(comment_thumbs_id) from	comment_thumbs where	comment_id=#{comment_id}
+ 	</select>
+ 	<resultMap type="com.teacher.entity.Comments" id="comments">
+ 	<id property="comment_id" column="comment_id"/>
+ 	<result property="grade" column="grade"/>
+ 	<result property="teacher_id" column="teacher_id"/>
+ 	<result property="user_id" column="user_id"/>
+ 	<result property="comment_time" column="comment_time"/>
+ 	<result property="comment_desc" column="comment_desc"/>
+ 	<association property="comment_Thumbs_Size"
+ 	javaType="int" select="findThumbsByCommentId"
+ 	column="comment_id"/>
+ 	</resultMap>
+ </mapper>
